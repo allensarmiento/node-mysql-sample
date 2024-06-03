@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  app:
+    image: node:alpine
+    build: ./
+    volumes:
+      - ./:/app
+    working_dir: /app
+    command: npm start
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mariadb
+    environment:
+      NODE_ENV: development
+      DB_HOST: db
+      DB_USER: admin
+      DB_PASSWORD: password
+      DB_NAME: shop
+
+  mariadb:
+    image: mariadb:10.5
+    volumes:
+      - db_data:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: shop
+  
+volumes:
+  db_data:
