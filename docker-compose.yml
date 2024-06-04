@@ -15,18 +15,24 @@ services:
     environment:
       NODE_ENV: development
       DB_HOST: db
-      DB_USER: admin
+      DB_USER: dev
       DB_PASSWORD: password
       DB_NAME: shop
 
   mariadb:
-    image: mariadb:10.5
+    build: mariadb:10.5
+    container_name: mariadb-container
     volumes:
       - db_data:/var/lib/mysql
+      - ./mysql:/docker-entrypoint-initdb.d
     restart: always
+    ports:
+      - "3306:3306"
     environment:
       MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: shop
+      MYSQL_USER: dev
+      MYSQL_PASSWORD: password
   
 volumes:
   db_data:
