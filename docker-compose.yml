@@ -14,10 +14,10 @@ services:
       - mariadb
     environment:
       NODE_ENV: development
-      DB_HOST: db
+      DB_HOST: mariadb-container
+      DB_NAME: shop
       DB_USER: dev
       DB_PASSWORD: password
-      DB_NAME: shop
 
   mariadb:
     build: mariadb:10.5
