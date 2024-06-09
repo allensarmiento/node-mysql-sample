@@ -5,9 +5,9 @@ const router = express.Router();
 
 router.get('/products', (req, res, next) => {
     Product.fetchAll()
-        .then(([rows, fieldData]) => {
+        .then((products) => {
             res.render('product-list', {
-                products: rows,
+                products: products,
                 pageTitle: 'All Products',
                 path: '/products',
             });
@@ -18,9 +18,9 @@ router.get('/products', (req, res, next) => {
 router.get('/products/:productId', (req, res, next) => {
     const prodId = req.params.productId;
     Product.findById(prodId)
-        .then(([product]) => {
+        .then((product) => {
             res.render('product-detail', {
-                product: product[0],
+                product: product,
                 pageTitle: product.title,
                 path: '/products',
             });

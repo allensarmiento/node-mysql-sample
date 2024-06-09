@@ -1,28 +1,37 @@
-const pool = require('../database');
+const db = require('../database');
 
 class Product {
-  constructor(id, title, imageUrl, description, price) {
-    this.id = id;
-    this.title = title;
-    this.imageUrl = imageUrl;
-    this.description = description;
-    this.price = price;
-  }
+    constructor(id, title, imageUrl, description, price) {
+        this.id = id;
+        this.title = title;
+        this.imageUrl = imageUrl;
+        this.description = description;
+        this.price = price;
+    }
 
-  save() {
-    return pool.execute(
-      'INSERT INTO Products (title, price, imageUrl, description) VALUES (?, ?, ?, ?)',
-      [this.title, this.price, this.imageUrl, this.description]
-    );
-  }
+    save() {
+        return db.execute(
+        'INSERT INTO Products (title, price, imageUrl, description) VALUES (?, ?, ?, ?)',
+        [this.title, this.price, this.imageUrl, this.description]
+        );
+    }
 
-  static fetchAll() {
-    return pool.execute('SELECT * FROM Products');
-  }
+    static fetchAll() {
+        return db.execute('SELECT * FROM Products')
+        .then(([rows, fields]) => {
+            return rows;
+        });
+    }
 
-  static findById(id) {
-    return pool.execute('SELECT * FROM products WHERE Products.id = ?', [id]);
-  }
+    static findById(id) {
+        return db.execute('SELECT * FROM products WHERE Products.id = ?', [id])
+        .then(([rows, fields]) => {
+            if (rows.length) {
+            return rows[0];
+            }
+            return null;
+        });
+    }
 };
 
 module.exports = Product;
