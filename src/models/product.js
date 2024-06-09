@@ -11,7 +11,7 @@ class Product {
 
     save() {
         return db.execute(
-        'INSERT INTO Products (title, price, imageUrl, description) VALUES (?, ?, ?, ?)',
+        'INSERT INTO Products (title, price, image_url, description) VALUES (?, ?, ?, ?)',
         [this.title, this.price, this.imageUrl, this.description]
         );
     }
@@ -24,7 +24,7 @@ class Product {
     }
 
     static findById(id) {
-        return db.execute('SELECT * FROM products WHERE Products.id = ?', [id])
+        return db.execute('SELECT * FROM Products WHERE Products.id = ?', [id])
         .then(([rows, fields]) => {
             if (rows.length) {
             return rows[0];

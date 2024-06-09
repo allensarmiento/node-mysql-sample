@@ -2,10 +2,10 @@ version: '3.8'
 
 services:
   app:
-    image: node:alpine
     build: ./
     volumes:
       - ./:/app
+      - /app/node_modules
     working_dir: /app
     command: npm start
     ports:
@@ -20,7 +20,7 @@ services:
       DB_PASSWORD: password
 
   mariadb:
-    build: mariadb:10.5
+    image: mariadb:10.5
     container_name: mariadb-container
     volumes:
       - db_data:/var/lib/mysql
